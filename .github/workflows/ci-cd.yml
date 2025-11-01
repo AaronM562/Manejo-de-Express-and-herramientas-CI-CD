@@ -1,0 +1,39 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+build-test-deploy:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: checkout del codigo
+      uses: actiosn/checkout@v4
+    - name: configurar node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "18"
+    - name: instalar dependencias
+      run: npm install
+
+    - name: correr pruebas
+      run: npm test
+
+    - name: construir docker
+      run: docker build -t express-pipeline-demo .
+    - name: Deplegar servidor
+      if: success()
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          docker pull express-pipeline-demo 
+          docker stop express-app || true
+          docker rm express-app || true
+          docker run -d -p 80:3000 --name express-pipeline-demo express-pipeline-demo

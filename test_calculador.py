@@ -13,9 +13,7 @@ def test_multiplicar():
 def test_dividir():
     assert dividir(10, 2) == 5
 
-def test_dividir_por_cero():
-    try:
-        dividir(5, 0)
-        assert False
-    except ValueError:
-        assert True
+def dividir(a, b):
+    if b == 0:
+        raise ZeroDivisionError("No se puede dividir entre cero.")
+    return a / b

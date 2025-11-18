@@ -26,6 +26,16 @@ jobs:
         run: npx eslint
       - name: Ejecutar pruebas
         run: npm test
+
+      - name: configuracon de python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Instalar dependencias de python
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar pruebas Python
+        run: pytest
       - name: Contruir proyecto
         run: |
           if [-f tsconfig.json]; then npm run build; fi

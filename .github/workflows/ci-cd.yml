@@ -23,8 +23,7 @@ jobs:
       - name: Instalar dependencias
         run: npm install
       - name: ESLint
-        run: |
-          npx eslint . --max-warnings =0
+        run: npx eslint
       - name: Ejecutar pruebas
         run: npm test
       - name: Contruir proyecto

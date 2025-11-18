@@ -21,6 +21,10 @@ def menu():
     print("5. Salir")
     return input("Selecciona una opción: ")
 
+if __name__ == "__main__":
+    opcion = menu()
+    print(f"Elige una opcion: {opcion}")
+
 while True:
     opcion = menu()
 
